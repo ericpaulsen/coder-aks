@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: coder-certs
+  namespace: coder # Coder deployment namespace
+spec:
+  commonName: "*.eric-aks.demo.coder.com"
+  dnsNames:
+    - "eric-aks.demo.coder.com"
+    - "*.eric-aks.demo.coder.com"
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt
+  secretName: coder-certs

@@ -1,0 +1,19 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt
+spec:
+  acme:
+    privateKeySecretRef:
+      name: gclouddnsissuersecret
+    server: https://acme-v02.api.letsencrypt.org/directory
+    solvers:
+      - dns01:
+          # Google Cloud DNS is the DNS provider
+          cloudDNS:
+            # GCP project ID
+            project: coder-demo-1
+            # secret used to access the GCP service account
+            serviceAccountSecretRef:
+              name: clouddns-dns01-solver-svc-acct
+              key: google-dns01-key.json

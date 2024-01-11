@@ -1,0 +1,148 @@
+coder:
+  command:
+  - /bin/sh
+  commandArgs:
+  - -c
+  # authenticates the az CLI using the system-assigned identity prior to invoking the Coder server
+  - az login --identity && /opt/coder server
+  image:
+    # custom image with az CLI installed
+    repo: "docker.io/ericpaulsen/coder-2.6.0"
+    tag: "az"
+    pullPolicy: Always
+  # user-assigned managed identity used for authenticating Terraform to Azure
+  podLabels:
+    aadpodidbinding: eric-cluster-pod-identity
+  service:
+    enable: true
+  tls:
+    # TLS certificate provisioned via cert-manager
+    secretNames:
+    - coder-certs
+  replicaCount: 1
+  serviceAccount:
+    workspacePerms: true
+# Coder configuration
+  env:
+  # DNS configuration
+  - name: CODER_ACCESS_URL
+    value: https://eric-aks.demo.coder.com
+  - name: CODER_WILDCARD_ACCESS_URL
+    value: '*.eric-aks.demo.coder.com'
+  # database configuration
+  - name: CODER_PG_CONNECTION_URL
+    valueFrom:
+      secretKeyRef:
+        key: url
+        # connection URL for Azure Single Server PostgreSQL
+        name: azure-db-url
+  # OIDC/SSO configuration
+  - name: CODER_OIDC_ISSUER_URL
+    value: https://login.microsoftonline.com/110f0c0f-cd76-4717-a6f8-4eea3d0f8109/v2.0
+  - name: CODER_OIDC_EMAIL_DOMAIN
+    value: accountscoder.onmicrosoft.com,coder.com
+  - name: CODER_OIDC_CLIENT_ID
+    valueFrom:
+      secretKeyRef:
+        key: client-id
+        name: azure-ad-secret
+  - name: CODER_OIDC_CLIENT_SECRET
+    valueFrom:
+      secretKeyRef:
+        key: client-secret
+        name: azure-ad-secret
+  - name: CODER_OIDC_SCOPES
+    value: openid,profile,email
+  - name: CODER_OIDC_SIGN_IN_TEXT
+    value: Microsoft Entra ID
+  - name: CODER_OIDC_ICON_URL
+    value: /icon/azure.png
+  - name: CODER_DISABLE_PASSWORD_AUTH
+    value: "false"
+  # self-hosted GitLab integration
+  - name: CODER_EXTERNAL_AUTH_0_TYPE
+    value: gitlab
+  - name: CODER_EXTERNAL_AUTH_0_ID
+    value: owo-gitlab
+  - name: CODER_EXTERNAL_AUTH_0_CLIENT_ID
+    valueFrom:
+      secretKeyRef:
+        key: client-id
+        name: gitlab-secret
+  - name: CODER_EXTERNAL_AUTH_0_CLIENT_SECRET
+    valueFrom:
+      secretKeyRef:
+        key: client-secret
+        name: gitlab-secret
+  - name: CODER_EXTERNAL_AUTH_0_VALIDATE_URL
+    value: https://owo.codes/oauth/token/info
+  - name: CODER_EXTERNAL_AUTH_0_AUTH_URL
+    value: https://owo.codes/oauth/authorize
+  - name: CODER_EXTERNAL_AUTH_0_TOKEN_URL
+    value: https://owo.codes/oauth/token
+  - name: CODER_EXTERNAL_AUTH_0_REGEX
+    value: owo\.codes
+  # GitHub SaaS integration
+  - name: CODER_EXTERNAL_AUTH_1_TYPE
+    value: github
+  - name: CODER_EXTERNAL_AUTH_1_ID
+    value: github
+  - name: CODER_EXTERNAL_AUTH_1_CLIENT_ID
+    valueFrom:
+      secretKeyRef:
+        key: client-id
+        name: github-secret
+  - name: CODER_EXTERNAL_AUTH_1_CLIENT_SECRET
+    valueFrom:
+      secretKeyRef:
+        key: client-secret
+        name: github-secret
+  # jFrog Artifactory integration
+  - name: CODER_EXTERNAL_AUTH_2_TYPE
+    value: jfrog
+  - name: CODER_EXTERNAL_AUTH_2_ID
+    value: jfrog
+  - name: CODER_EXTERNAL_AUTH_2_CLIENT_ID
+    valueFrom:
+      secretKeyRef:
+        key: client-id
+        name: jfrog-secret
+  - name: CODER_EXTERNAL_AUTH_2_CLIENT_SECRET
+    valueFrom:
+      secretKeyRef:
+        key: client-secret
+        name: jfrog-secret
+  - name: CODER_EXTERNAL_AUTH_2_AUTH_URL
+    value: https://jfrt.cdr.dev/ui/authorization
+  - name: CODER_EXTERNAL_AUTH_2_TOKEN_URL
+    value: https://jfrt.cdr.dev/access/api/v1/integrations/app@01hktk0h7ppm2y1vkmg6em1xv6/token
+  - name: CODER_EXTERNAL_AUTH_2_DISPLAY_ICON
+    value: /icon/jfrog.svg
+  - name: CODER_EXTERNAL_AUTH_2_SCOPES
+    value: applied-permissions/user
+  - name: CODER_SWAGGER_ENABLE
+    value: "true" # boolean to enable Swaggger API endpoint, /swagger
+  - name: CODER_MAX_TOKEN_LIFETIME
+    value: 8760h0m0s # 365 days - the max lifetime duration users can specify when creating an API token.
+  - name: CODER_BROWSER_ONLY
+    value: "false" # enables browser-only mode, to block SSH connections
+  - name: CODER_EXPERIMENTS
+    value: workspace_actions,template_update_policies,template_autostop_requirement,deployment_health_page
+  # networking configuration
+  - name: CODER_DERP_CONFIG_URL
+    value: https://controlplane.tailscale.com/derpmap/default
+  - name: CODER_DERP_SERVER_ENABLE
+    value: "false"
+  - name: CODER_TLS_MIN_VERSION
+    value: tls13
+  - name: CODER_STRICT_TRANSPORT_SECURITY
+    value: "172800" # this value is the MaxAge in seconds of the header.
+  - name: CODER_STRICT_TRANSPORT_SECURITY_OPTIONS
+    value: includeSubDomains,preload # two optional fields can be set in the Strict-Transport-Security header
+  - name: CODER_REDIRECT_TO_ACCESS_URL
+    value: "false" # specifies whether to redirect requests that do not match the access URL host.
+  # logging/metrics configuration
+  - name: CODER_VERBOSE
+    value: "true"
+  - name: CODER_PROMETHEUS_ENABLE
+    value: "true"

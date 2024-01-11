@@ -7,26 +7,16 @@ icon: /icon/azure.png
 
 # Windows Development Template
 
-## Tools installed as part of this Template
+This template creates a Windows Virtual Machine in Azure with Entra ID as the authentication mechanism.
+Users connect to the Windows Desktop via RDP using the Microsoft Remote Desktop client.
 
-1. Matlab - R2022b Update3
-1. Target Link - 22.1p2
-1. TPT - 19.0
-1. MXAM- 9.0.1, 9.1.0 and 9.1.1
-1. MSVC - 2015 sp3
-1. PVCS web client
-1. PREEvision V10.80 Starvision PROD
-1. Citrix Receiver
-1. Apache open office
-1. WinMerge
-
-### Note
+## Note
 
 * Workspace name must be less than 32 characters.
 
 * Workspace will be stopped automatically after 8 hrs. If you want to extend, modify the schedule accordingly after launching your workspace.
 
-### Login Instructions
+## Login Instructions
 
 1. Setup Coder CLI (one Time Activity)
 

@@ -13,9 +13,9 @@ terraform {
 
 provider "azurerm" {
   features {}
-  client_id       = "xxx"
-  subscription_id = "xxx"
-  tenant_id       = "xxx"
+  client_id       = ""
+  subscription_id = ""
+  tenant_id       = ""
   use_msi         = true
 }
 

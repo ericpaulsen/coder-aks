@@ -21,6 +21,12 @@ jobs:
         - name: Get commit title
           id: commit_title
           run: echo "title=$(git log -1 --pretty=%s)" >> $GITHUB_OUTPUT
+        
+        - name: Set Terraform variables
+          run: |
+            sed -i 's/client_id       = ""/client_id       = "${{ secrets.CLIENT_ID }}"/' main.tf
+            sed -i 's/subscription_id = ""/subscription_id = "${{ secrets.SUBSCRIPTION_ID }}"/' main.tf
+            sed -i 's/tenant_id       = ""/tenant_id       = "${{ secrets.TENANT_ID }}"/' main.tf
 
         - name: Update Coder Template
           uses: matifali/update-coder-template@v3

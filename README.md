@@ -1,6 +1,6 @@
 # Coder on Azure Kubernetes (K8s) Service
 
-This repo intends is to mimic an enterprise-grade Coder
+This repo intends to mimic an enterprise-grade Coder
 deployment with configurations you'd expect from a Fortune 500 customer. These
 typically include:
 

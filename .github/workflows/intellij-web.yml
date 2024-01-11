@@ -1,9 +1,13 @@
-name: Update jfrog-oauth-pod template
+name: Update intellij-web template
 
 on:
   push:
     branches:
       - main
+    paths:
+        - "tempaltes/intellij-web/main.tf"
+        - ".github/workflows/intellij-web.yml"
+  workflow_dispatch:
 
 jobs:
     update:
@@ -21,8 +25,8 @@ jobs:
         - name: Update Coder Template
           uses: matifali/update-coder-template@v3
           with:
-            id: jfrog-oauth-pod
-            dir: jfrog-oauth-pod
+            id: intellij-web
+            dir: templates/intellij-web
             url: https://eric-aks.demo.coder.com
             name: ${{ steps.latest_commit.outputs.hash }}
             message: ${{ steps.commit_title.outputs.title }}

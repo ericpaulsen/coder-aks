@@ -1,9 +1,13 @@
-name: Update matlab-pod template
+name: Update jupyter-pod template
 
 on:
   push:
     branches:
       - main
+    paths:
+        - "tempaltes/jupyter-pod/main.tf"
+        - ".github/workflows/jupyter-pod.yml"
+  workflow_dispatch:
 
 jobs:
     update:
@@ -21,8 +25,8 @@ jobs:
         - name: Update Coder Template
           uses: matifali/update-coder-template@v3
           with:
-            id: matlab-pod
-            dir: matlab-pod
+            id: jupyter-pod
+            dir: templates/jupyter-pod
             url: https://eric-aks.demo.coder.com
             name: ${{ steps.latest_commit.outputs.hash }}
             message: ${{ steps.commit_title.outputs.title }}

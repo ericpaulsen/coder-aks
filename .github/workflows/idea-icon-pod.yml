@@ -1,9 +1,13 @@
-name: Update azure-windows-ad-auth template
+name: Update idea-icon-pod template
 
 on:
   push:
     branches:
       - main
+    paths:
+        - "tempaltes/idea-icon-pod/main.tf"
+        - ".github/workflows/idea-icon-pod.yml"
+  workflow_dispatch:
 
 jobs:
     update:
@@ -21,8 +25,8 @@ jobs:
         - name: Update Coder Template
           uses: matifali/update-coder-template@v3
           with:
-            id: azure-windows-ad-auth
-            dir: azure-windows-ad-auth
+            id: idea-icon-pod
+            dir: templates/idea-icon-pod
             url: https://eric-aks.demo.coder.com
             name: ${{ steps.latest_commit.outputs.hash }}
             message: ${{ steps.commit_title.outputs.title }}

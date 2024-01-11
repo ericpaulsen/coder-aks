@@ -1,9 +1,13 @@
-name: Update airflow-pod template
+name: Update code-server-pod template
 
 on:
   push:
     branches:
       - main
+    paths:
+        - "tempaltes/code-server-pod/main.tf"
+        - ".github/workflows/code-server-pod.yml"
+  workflow_dispatch:
 
 jobs:
     update:
@@ -21,8 +25,8 @@ jobs:
         - name: Update Coder Template
           uses: matifali/update-coder-template@v3
           with:
-            id: airflow-pod
-            dir: airflow-pod
+            id: code-server-pod
+            dir: templates/code-server-pod
             url: https://eric-aks.demo.coder.com
             name: ${{ steps.latest_commit.outputs.hash }}
             message: ${{ steps.commit_title.outputs.title }}

@@ -1,9 +1,13 @@
-name: Update jupyter-pod template
+name: Update devcontainer-k8s template
 
 on:
   push:
     branches:
       - main
+    paths:
+        - "tempaltes/devcontainer-k8s/main.tf"
+        - ".github/workflows/devcontainer-k8s.yml"
+  workflow_dispatch:
 
 jobs:
     update:
@@ -21,8 +25,8 @@ jobs:
         - name: Update Coder Template
           uses: matifali/update-coder-template@v3
           with:
-            id: jupyter-pod
-            dir: jupyter-pod
+            id: devcontainer-k8s
+            dir: devcontainer-k8s
             url: https://eric-aks.demo.coder.com
             name: ${{ steps.latest_commit.outputs.hash }}
             message: ${{ steps.commit_title.outputs.title }}

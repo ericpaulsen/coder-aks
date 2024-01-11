@@ -1,9 +1,13 @@
-name: Update code-server-pod template
+name: Update vs-code-server template
 
 on:
   push:
     branches:
       - main
+    paths:
+        - "tempaltes/vs-code-server/main.tf"
+        - ".github/workflows/vs-code-server.yml"
+  workflow_dispatch:
 
 jobs:
     update:
@@ -21,8 +25,8 @@ jobs:
         - name: Update Coder Template
           uses: matifali/update-coder-template@v3
           with:
-            id: code-server-pod
-            dir: code-server-pod
+            id: vs-code-server
+            dir: templates/vs-code-server
             url: https://eric-aks.demo.coder.com
             name: ${{ steps.latest_commit.outputs.hash }}
             message: ${{ steps.commit_title.outputs.title }}

@@ -1,9 +1,13 @@
-name: Update intellij-web template
+name: Update matlab-pod template
 
 on:
   push:
     branches:
       - main
+    paths:
+        - "tempaltes/matlab-pod/main.tf"
+        - ".github/workflows/matlab-pod.yml"
+  workflow_dispatch:
 
 jobs:
     update:
@@ -21,8 +25,8 @@ jobs:
         - name: Update Coder Template
           uses: matifali/update-coder-template@v3
           with:
-            id: intellij-web
-            dir: intellij-web
+            id: matlab-pod
+            dir: templates/matlab-pod
             url: https://eric-aks.demo.coder.com
             name: ${{ steps.latest_commit.outputs.hash }}
             message: ${{ steps.commit_title.outputs.title }}

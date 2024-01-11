@@ -1,9 +1,13 @@
-name: Update envbox template
+name: Update azure-windows-ad-auth template
 
 on:
   push:
     branches:
       - main
+    paths:
+        - "tempaltes/azure-windows-ad-auth/main.tf"
+        - ".github/workflows/azure-windows-ad-auth.yml"
+  workflow_dispatch:
 
 jobs:
     update:
@@ -21,8 +25,8 @@ jobs:
         - name: Update Coder Template
           uses: matifali/update-coder-template@v3
           with:
-            id: envbox
-            dir: envbox
+            id: azure-windows-ad-auth
+            dir: templates/azure-windows-ad-auth
             url: https://eric-aks.demo.coder.com
             name: ${{ steps.latest_commit.outputs.hash }}
             message: ${{ steps.commit_title.outputs.title }}

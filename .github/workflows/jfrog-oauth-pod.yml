@@ -1,9 +1,13 @@
-name: Update devcontainer-k8s template
+name: Update jfrog-oauth-pod template
 
 on:
   push:
     branches:
       - main
+    paths:
+        - "tempaltes/jfrog-oauth-pod/main.tf"
+        - ".github/workflows/jfrog-oauth-pod.yml"
+  workflow_dispatch:
 
 jobs:
     update:
@@ -21,8 +25,8 @@ jobs:
         - name: Update Coder Template
           uses: matifali/update-coder-template@v3
           with:
-            id: devcontainer-k8s
-            dir: devcontainer-k8s
+            id: jfrog-oauth-pod
+            dir: templates/jfrog-oauth-pod
             url: https://eric-aks.demo.coder.com
             name: ${{ steps.latest_commit.outputs.hash }}
             message: ${{ steps.commit_title.outputs.title }}

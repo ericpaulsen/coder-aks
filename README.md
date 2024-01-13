@@ -1,4 +1,4 @@
-# Coder on Azure Kubernetes (K8s) Service
+# [Coder](https://coder.com) on Azure Kubernetes (K8s) Service
 
 This repo intends to mimic an enterprise-grade Coder
 deployment with configurations you'd expect from a Fortune 500 customer. These

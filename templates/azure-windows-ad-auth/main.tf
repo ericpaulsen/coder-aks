@@ -125,7 +125,7 @@ resource "azurerm_windows_virtual_machine" "main" {
   size                  = "Standard_DS1_v2"
   computer_name         = lower(random_string.computer_name.result)
   custom_data = base64encode(
-    templatefile("${path.module}/Initialize.ps1.tftpl", { init_script = try(coder_agent.main[0].init_script, "") }
+    templatefile("${path.module}/Initialize.ps1.tftpl", { init_script = try(coder_agent.main.init_script, "") }
   ))
   source_image_reference {
     publisher = "MicrosoftWindowsServer"

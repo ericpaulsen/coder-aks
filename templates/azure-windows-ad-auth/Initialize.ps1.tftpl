@@ -90,4 +90,4 @@ $extractPath = "C:\VSCode"
 Expand-Archive -Path $downloadPath -DestinationPath $extractPath -Force
 
 # Add the directory to the system's PATH
-$env:Path += ";$extractPath"
+[System.Environment]::SetEnvironmentVariable("Path", [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";C:\VSCode\bin", "Machine")

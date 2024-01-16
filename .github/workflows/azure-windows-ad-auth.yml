@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-        - "tempaltes/azure-windows-ad-auth/main.tf"
+        - "templates/azure-windows-ad-auth/main.tf"
         - ".github/workflows/azure-windows-ad-auth.yml"
   workflow_dispatch:
 

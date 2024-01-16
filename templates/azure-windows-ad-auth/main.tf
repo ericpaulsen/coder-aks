@@ -25,10 +25,14 @@ provider "coder" {
 data "coder_workspace" "me" {}
 
 resource "coder_agent" "main" {
-  count = data.coder_workspace.me.transition == "start" ? 1 : 0
-  arch  = "amd64"
-  auth  = "azure-instance-identity"
-  os    = "windows"
+  count          = data.coder_workspace.me.transition == "start" ? 1 : 0
+  arch           = "amd64"
+  auth           = "azure-instance-identity"
+  os             = "windows"
+  startup_script = <<-EOT
+  code serve-web --without-connection-token
+
+  EOT
 
   metadata {
     key          = "cpu"
@@ -50,6 +54,22 @@ resource "coder_agent" "main" {
     interval     = 5
     timeout      = 5
     script       = "get-psdrive c | % { $_.used/($_.used + $_.free) } | % tostring p"
+  }
+}
+
+resource "coder_app" "code-server" {
+  agent_id     = coder_agent.main.id
+  slug         = "vs-code-server"
+  display_name = "vs-code-server"
+  url          = "http://localhost:8000"
+  icon         = "/icon/code.svg"
+  subdomain    = false
+  share        = "owner"
+
+  healthcheck {
+    url       = "http://localhost:8000/healthz"
+    interval  = 5
+    threshold = 6
   }
 }
 

@@ -72,3 +72,22 @@ Register-ScheduledTask @task -Force
 # Additional Chocolatey package installs (optional, uncomment to enable)
 # choco feature enable -n=allowGlobalConfirmation
 # choco install visualstudio2022community --package-parameters "--add=Microsoft.VisualStudio.Workload.ManagedDesktop;includeRecommended --passive --locale en-US"
+
+# Download and extract Microsoft VS Code Server
+# Define the URL of the VS Code binary
+$url = "https://update.code.visualstudio.com/latest/win32-x64-archive/stable"
+
+# Define the path where the binary will be downloaded
+$downloadPath = "$env:TEMP\VSCode.zip"
+
+# Download the VS Code binary
+Invoke-WebRequest -Uri $url -OutFile $downloadPath
+
+# Define the path where the binary will be extracted
+$extractPath = "C:\VSCode"
+
+# Extract the VS Code binary
+Expand-Archive -Path $downloadPath -DestinationPath $extractPath -Force
+
+# Add the directory to the system's PATH
+$env:Path += ";$extractPath"

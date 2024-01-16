@@ -58,7 +58,7 @@ resource "coder_agent" "main" {
 }
 
 resource "coder_app" "code-server" {
-  agent_id     = coder_agent.main.id
+  agent_id     = coder_agent.main[0].id
   slug         = "vs-code-server"
   display_name = "vs-code-server"
   url          = "http://localhost:8000"

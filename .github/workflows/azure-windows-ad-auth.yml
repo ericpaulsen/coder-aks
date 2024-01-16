@@ -6,6 +6,8 @@ on:
       - main
     paths:
         - "templates/azure-windows-ad-auth/main.tf"
+        - "templates/azure-windows-ad-auth/Initialize.ps1.tftpl"
+        - "templates/azure-windows-ad-auth/FirstLogonCommands.xml"
         - ".github/workflows/azure-windows-ad-auth.yml"
   workflow_dispatch:
 

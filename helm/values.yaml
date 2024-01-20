@@ -7,7 +7,7 @@ coder:
   - az login --identity && /opt/coder server
   image:
     # custom image with az CLI installed
-    repo: "docker.io/ericpaulsen/coder-2.6.0"
+    repo: "docker.io/ericpaulsen/coder-2.7.0"
     tag: "az"
     pullPolicy: Always
   # user-assigned managed identity used for authenticating Terraform to Azure
@@ -146,3 +146,12 @@ coder:
     value: "true"
   - name: CODER_PROMETHEUS_ENABLE
     value: "true"
+  - name: CODER_SUPPORT_LINKS
+    value: >
+      [{"name": "GitHub", "target": "https://github.com/coder/coder",
+      "icon": "/icon/github.svg"},
+       {"name": "Slack", "target":
+      "https://codercom.slack.com", "icon":
+      "/icon/slack.svg"},
+       {"name": "Discord", "target": "https://discord.gg/coder", "icon":
+      "/icon/discord.svg"}]

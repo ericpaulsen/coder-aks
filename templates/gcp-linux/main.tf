@@ -53,9 +53,6 @@ data "coder_parameter" "zone" {
   }
 }
 
-data "google_compute_default_service_account" "default" {
-}
-
 data "coder_workspace" "me" {
 }
 
@@ -150,7 +147,7 @@ resource "google_compute_instance" "dev" {
     source      = google_compute_disk.root.name
   }
   service_account {
-    email  = data.google_compute_default_service_account.default.email
+    email  = "265906787646-compute@developer.gserviceaccount.com"
     scopes = ["cloud-platform"]
   }
   # The startup script runs as root with no $HOME environment set up, so instead of directly

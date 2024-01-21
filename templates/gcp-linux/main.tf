@@ -15,11 +15,7 @@ provider "coder" {
 provider "google" {
   credentials = "/var/secrets/google/gcp-credential"
   zone        = data.coder_parameter.zone.value
-  project     = var.project_id
-}
-
-variable "project_id" {
-  description = "Which Google Compute Project should your workspace live in?"
+  project     = "coder-demo-1"
 }
 
 data "coder_parameter" "zone" {

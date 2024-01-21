@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-        - "tempaltes/idea-icon-pod/main.tf"
+        - "templates/idea-icon-pod/main.tf"
         - ".github/workflows/idea-icon-pod.yml"
   workflow_dispatch:
 

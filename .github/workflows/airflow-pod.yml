@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-        - "tempaltes/airflow-pod/main.tf"
+        - "templates/airflow-pod/main.tf"
         - ".github/workflows/airflow-pod.yml"
   workflow_dispatch:
 

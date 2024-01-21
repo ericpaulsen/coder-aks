@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-        - "tempaltes/code-server-pod/main.tf"
+        - "templates/code-server-pod/main.tf"
         - ".github/workflows/code-server-pod.yml"
   workflow_dispatch:
 

@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-        - "tempaltes/devcontainer-k8s/main.tf"
+        - "templates/devcontainer-k8s/main.tf"
         - ".github/workflows/devcontainer-k8s.yml"
   workflow_dispatch:
 

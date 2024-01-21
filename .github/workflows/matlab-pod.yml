@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-        - "tempaltes/matlab-pod/main.tf"
+        - "templates/matlab-pod/main.tf"
         - ".github/workflows/matlab-pod.yml"
   workflow_dispatch:
 

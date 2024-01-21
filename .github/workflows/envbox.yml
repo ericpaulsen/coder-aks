@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-        - "tempaltes/envbox/main.tf"
+        - "templates/envbox/main.tf"
         - ".github/workflows/envbox.yml"
   workflow_dispatch:
 

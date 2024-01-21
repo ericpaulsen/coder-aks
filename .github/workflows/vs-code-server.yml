@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-        - "tempaltes/vs-code-server/main.tf"
+        - "templates/vs-code-server/main.tf"
         - ".github/workflows/vs-code-server.yml"
   workflow_dispatch:
 

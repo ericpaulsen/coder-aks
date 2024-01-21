@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-        - "tempaltes/jfrog-oauth-pod/main.tf"
+        - "templates/jfrog-oauth-pod/main.tf"
         - ".github/workflows/jfrog-oauth-pod.yml"
   workflow_dispatch:
 

@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-        - "tempaltes/jupyter-pod/main.tf"
+        - "templates/jupyter-pod/main.tf"
         - ".github/workflows/jupyter-pod.yml"
   workflow_dispatch:
 

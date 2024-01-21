@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-        - "tempaltes/intellij-web/main.tf"
+        - "templates/intellij-web/main.tf"
         - ".github/workflows/intellij-web.yml"
   workflow_dispatch:
 

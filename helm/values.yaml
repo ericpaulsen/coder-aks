@@ -3,7 +3,7 @@ coder:
   - /bin/sh
   commandArgs:
   - -c
-  # authenticates the az CLI using the system-assigned identity prior to invoking the Coder server
+  # az CLI auth'd via system-assigned identity prior to instantiating Coder server
   - az login --identity && /opt/coder server
   image:
     # custom image with az CLI installed
@@ -22,6 +22,16 @@ coder:
   replicaCount: 1
   serviceAccount:
     workspacePerms: true
+  # GCP credentials for Terraform
+  volumes:
+  - name: gcp-credential
+    secret:
+      secretName: gcp-credential
+  volumeMounts:
+  - name: gcp-credential
+    mountPath: /var/secrets/google
+    readOnly: true
+
 # Coder configuration
   env:
   # DNS configuration

@@ -3,13 +3,15 @@ coder:
   - /bin/sh
   commandArgs:
   - -c
-  # az CLI auth'd via system-assigned identity prior to instantiating Coder server
-  - az login --identity && /opt/coder server
+  # az & gcloud CLIs auth'd prior to instantiating Coder server
+  - az login --identity && gcloud auth activate-service-account --key-file=/var/secrets/gcp/gcp-service-account-key && /opt/coder server
+
   image:
     # custom image with az CLI installed
     repo: "docker.io/ericpaulsen/coder-2.7.0"
-    tag: "az"
+    tag: "multi-cloud"
     pullPolicy: Always
+
   # user-assigned managed identity used for authenticating Terraform to Azure
   podLabels:
     aadpodidbinding: eric-cluster-pod-identity
@@ -22,14 +24,21 @@ coder:
   replicaCount: 1
   serviceAccount:
     workspacePerms: true
+    
   # GCP credentials for Terraform
   volumes:
-  - name: gcp-credential
+  - name: gke-kubeconfig
     secret:
-      secretName: gcp-credential
+      secretName: gke-kubeconfig
+  - name: gcp-service-account-key
+    secret:
+      secretName: gcp-service-account-key
   volumeMounts:
-  - name: gcp-credential
-    mountPath: /var/secrets/google
+  - name: gke-kubeconfig
+    mountPath: /var/secrets/gke
+    readOnly: false
+  - name: gcp-service-account-key
+    mountPath: /var/secrets/gcp
     readOnly: true
 
 # Coder configuration
@@ -39,6 +48,7 @@ coder:
     value: https://eric-aks.demo.coder.com
   - name: CODER_WILDCARD_ACCESS_URL
     value: '*.eric-aks.demo.coder.com'
+
   # database configuration
   - name: CODER_PG_CONNECTION_URL
     valueFrom:
@@ -46,6 +56,7 @@ coder:
         key: url
         # connection URL for Azure Single Server PostgreSQL
         name: azure-db-url
+
   # OIDC/SSO configuration
   - name: CODER_OIDC_ISSUER_URL
     value: https://login.microsoftonline.com/110f0c0f-cd76-4717-a6f8-4eea3d0f8109/v2.0
@@ -69,6 +80,7 @@ coder:
     value: /icon/azure.png
   - name: CODER_DISABLE_PASSWORD_AUTH
     value: "false"
+
   # self-hosted GitLab integration
   - name: CODER_EXTERNAL_AUTH_0_TYPE
     value: gitlab
@@ -92,6 +104,7 @@ coder:
     value: https://owo.codes/oauth/token
   - name: CODER_EXTERNAL_AUTH_0_REGEX
     value: owo\.codes
+
   # GitHub SaaS integration
   - name: CODER_EXTERNAL_AUTH_1_TYPE
     value: github
@@ -107,6 +120,7 @@ coder:
       secretKeyRef:
         key: client-secret
         name: github-secret
+
   # jFrog Artifactory integration
   - name: CODER_EXTERNAL_AUTH_2_TYPE
     value: jfrog
@@ -130,6 +144,7 @@ coder:
     value: /icon/jfrog.svg
   - name: CODER_EXTERNAL_AUTH_2_SCOPES
     value: applied-permissions/user
+
   - name: CODER_SWAGGER_ENABLE
     value: "true" # boolean to enable Swaggger API endpoint, /swagger
   - name: CODER_MAX_TOKEN_LIFETIME
@@ -138,6 +153,7 @@ coder:
     value: "false" # enables browser-only mode, to block SSH connections
   - name: CODER_EXPERIMENTS
     value: workspace_actions,template_update_policies,template_autostop_requirement,deployment_health_page
+
   # networking configuration
   - name: CODER_DERP_CONFIG_URL
     value: https://controlplane.tailscale.com/derpmap/default
@@ -151,6 +167,7 @@ coder:
     value: includeSubDomains,preload # two optional fields can be set in the Strict-Transport-Security header
   - name: CODER_REDIRECT_TO_ACCESS_URL
     value: "false" # specifies whether to redirect requests that do not match the access URL host.
+
   # logging/metrics configuration
   - name: CODER_VERBOSE
     value: "true"

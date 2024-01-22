@@ -13,7 +13,7 @@ provider "coder" {
 }
 
 provider "google" {
-  credentials = "/var/secrets/google/gcp-credential"
+  credentials = "/Users/ericpaulsen/code/cdr/k8s/aks/gcp-credential.json"
   zone        = data.coder_parameter.zone.value
   project     = "coder-demo-1"
 }

@@ -7,7 +7,7 @@ coder:
   - az login --identity && gcloud auth activate-service-account --key-file=/var/secrets/gcp/gcp-service-account-key && /opt/coder server
 
   image:
-    # custom image with az CLI installed
+    # custom image with az & gcloud CLIs installed
     repo: "docker.io/ericpaulsen/coder-2.7.0"
     tag: "multi-cloud"
     pullPolicy: Always
@@ -24,7 +24,7 @@ coder:
   replicaCount: 1
   serviceAccount:
     workspacePerms: true
-    
+
   # GCP credentials for Terraform
   volumes:
   - name: gke-kubeconfig

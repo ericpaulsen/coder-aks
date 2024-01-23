@@ -29,10 +29,6 @@ resource "coder_agent" "main" {
   auth           = "azure-instance-identity"
   os             = "windows"
   startup_script = <<-EOT
-  
-  Start-Job -ScriptBlock {
-    code serve-web --without-connection-token --accept-server-license-terms --extensions-dir 'C:\Users\coder\.vscode-server'
-  }
 
   EOT
 

@@ -55,22 +55,6 @@ resource "coder_agent" "main" {
   }
 }
 
-resource "coder_app" "code-server" {
-  agent_id     = coder_agent.main.id
-  slug         = "vs-code-server"
-  display_name = "vs-code-server"
-  url          = "http://localhost:8000"
-  icon         = "/icon/code.svg"
-  subdomain    = false
-  share        = "owner"
-
-  healthcheck {
-    url       = "http://localhost:8000/healthz"
-    interval  = 5
-    threshold = 6
-  }
-}
-
 #Generate random password for default user
 resource "random_password" "admin_password" {
   length  = 16

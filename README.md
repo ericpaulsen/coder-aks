@@ -17,7 +17,8 @@ application. In-line comments provide context on the various sections
 and environment variables. A few things to note:
 
 - Primary endpoint is `eric-aks.demo.coder.com`, pointing to an Azure Load Balancer
-- Deployment image is `ericpaulsen/coder-{latest-version}:az`, which includes `az` CLI
+- Deployment image is `ericpaulsen/coder-{latest-version}:multi-cloud`, which includes `az` & `gcloud` CLIs
+- GCP, GKE service account key and `kubeconfig` is mounted into the Coder pod
 - GitHub, GitLab, and JFrog Artifactory integrations enable access from Coder workspaces
 - Terraform authenticates to Azure via a managed identity set in `coder.podLabels`
 - Application state is stored in Azure Postgres Single Server

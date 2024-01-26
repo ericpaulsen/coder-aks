@@ -4,7 +4,7 @@ This repo intends to mimic an enterprise-grade Coder
 deployment with configurations you'd expect from a Fortune 500 customer. These
 typically include:
 
-- Multi-cloud, multi-platform workspace provisioning
+- Multi-cloud, multi-platform workspace provisioning ([see my webinar on this topic here](https://coder.com/webinars/multi-platform-multi-cloud-development-environments-with-coder/register))
 - CI/CD automation for template lifecycle and K8s deployment
 - Microsoft Entra ID Single Sign-On
 - Managed PostgreSQL

@@ -167,6 +167,8 @@ coder:
     value: includeSubDomains,preload # two optional fields can be set in the Strict-Transport-Security header
   - name: CODER_REDIRECT_TO_ACCESS_URL
     value: "false" # specifies whether to redirect requests that do not match the access URL host.
+  - name: CODER_SSH_CONFIG_OPTIONS
+    value: ServerAliveInterval=100 # ssh keep-alive, appended to SSH configs on client machines
 
   # logging/metrics configuration
   - name: CODER_VERBOSE

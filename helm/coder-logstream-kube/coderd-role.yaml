@@ -1,0 +1,24 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: coder-workspaces
+rules:
+  - apiGroups: ["", "apps", "networking.k8s.io"]
+    resources: ["persistentvolumeclaims", "pods", "deployments", "services", "secrets", "pods/exec","pods/log", "events", "networkpolicies", "serviceaccounts"]
+    verbs: ["create", "get", "list", "watch", "update", "patch", "delete", "deletecollection"]
+  - apiGroups: ["metrics.k8s.io", "storage.k8s.io"]
+    resources: ["pods", "storageclasses"]
+    verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: coder-workspaces
+subjects:
+  - kind: ServiceAccount
+    name: coder
+    namespace: coder
+roleRef:
+  kind: Role
+  name: coder-workspaces
+  apiGroup: rbac.authorization.k8s.io

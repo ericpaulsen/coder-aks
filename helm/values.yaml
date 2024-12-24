@@ -8,7 +8,7 @@ coder:
 
   image:
     # custom image with az & gcloud CLIs installed
-    repo: "docker.io/ericpaulsen/coder-2.7.0"
+    repo: "docker.io/ericpaulsen/coder-2.18.0"
     tag: "multi-cloud"
     pullPolicy: Always
 
@@ -33,7 +33,17 @@ coder:
   - name: gcp-service-account-key
     secret:
       secretName: gcp-service-account-key
+  - name: eric-ca
+    secret:
+      secretName: eric-ca
+      items:
+      - key: eric-ca.pem
+        path: eric-ca.pem
   volumeMounts:
+  - name: eric-ca
+    mountPath: /etc/ssl/certs/eric-ca.pem
+    subPath: eric-ca.pem
+    readOnly: true
   - name: gke-kubeconfig
     mountPath: /var/secrets/gke
     readOnly: false

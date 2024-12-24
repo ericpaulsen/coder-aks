@@ -29,8 +29,12 @@ variable "use_kubeconfig" {
 }
 
 provider "kubernetes" {
-  # Authenticate via ~/.kube/config or a Coder-specific ServiceAccount, depending on admin preferences
-  config_path = var.use_kubeconfig == true ? "~/.kube/config" : null
+  host = "https://8F9725368681A223B3D7220FB406F73E.sk1.us-west-1.eks.amazonaws.com"
+  exec {
+    api_version = "client.authentication.k8s.io/v1beta1"
+    args        = ["eks", "get-token", "--cluster-name", "mark-trial-cluster"]
+    command     = "aws"
+  }
 }
 
 data "coder_workspace" "me" {}
@@ -269,7 +273,7 @@ resource "kubernetes_pod" "main" {
   ]
   metadata {
     name      = "coder-${data.coder_workspace.me.owner}-${data.coder_workspace.me.name}"
-    namespace = "coder"
+    namespace = "oss"
   }
   spec {
     security_context {
@@ -315,7 +319,7 @@ resource "kubernetes_pod" "main" {
 resource "kubernetes_persistent_volume_claim" "home-directory" {
   metadata {
     name      = "home-coder-${data.coder_workspace.me.owner}-${data.coder_workspace.me.name}"
-    namespace = "coder"
+    namespace = "oss"
   }
   wait_until_bound = false
   spec {

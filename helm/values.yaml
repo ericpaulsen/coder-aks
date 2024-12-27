@@ -8,7 +8,7 @@ coder:
 
   image:
     # custom image with az & gcloud CLIs installed
-    repo: "docker.io/ericpaulsen/coder-2.18.0"
+    repo: "docker.io/ericpaulsen/coder-2.18.1"
     tag: "multi-cloud"
     pullPolicy: Always
 

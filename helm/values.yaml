@@ -8,8 +8,8 @@ coder:
 
   image:
     # custom image with az & gcloud CLIs installed
-    repo: "docker.io/ericpaulsen/coder-2.18.1"
-    tag: "multi-cloud"
+    repo: "docker.io/ericpaulsen/coder-multi-cloud"
+    tag: "2.22.0"
     pullPolicy: Always
 
   # user-assigned managed identity used for authenticating Terraform to Azure
@@ -147,9 +147,9 @@ coder:
         key: client-secret
         name: jfrog-secret
   - name: CODER_EXTERNAL_AUTH_2_AUTH_URL
-    value: https://jfrt.cdr.dev/ui/authorization
+    value: https://coderintegration.jfrog.io/ui/authorization
   - name: CODER_EXTERNAL_AUTH_2_TOKEN_URL
-    value: https://jfrt.cdr.dev/access/api/v1/integrations/app@01hktk0h7ppm2y1vkmg6em1xv6/token
+    value: https://coderintegration.jfrog.io/access/api/v1/integrations/app@01jwbmdntadh1z1em2ca840zc6/token
   - name: CODER_EXTERNAL_AUTH_2_DISPLAY_ICON
     value: /icon/jfrog.svg
   - name: CODER_EXTERNAL_AUTH_2_SCOPES
@@ -162,7 +162,7 @@ coder:
   - name: CODER_BROWSER_ONLY
     value: "false" # enables browser-only mode, to block SSH connections
   - name: CODER_EXPERIMENTS
-    value: workspace_actions,template_update_policies,template_autostop_requirement,deployment_health_page
+    value: '*'
 
   # networking configuration
   - name: CODER_DERP_CONFIG_URL

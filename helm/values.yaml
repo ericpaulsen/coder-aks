@@ -3,8 +3,14 @@ coder:
   - /bin/sh
   commandArgs:
   - -c
-  # az & gcloud CLIs auth'd prior to instantiating Coder server
-  - az login --identity && gcloud auth activate-service-account --key-file=/var/secrets/gcp/gcp-service-account-key && /opt/coder server
+  # az & gcloud CLIs auth'd prior to instantiating Coder server. The workload
+  # identity webhook injects AZURE_CLIENT_ID, AZURE_TENANT_ID, and
+  # AZURE_FEDERATED_TOKEN_FILE into the pod.
+  - >-
+    az login --service-principal -u "$AZURE_CLIENT_ID" -t "$AZURE_TENANT_ID"
+    --federated-token "$(cat "$AZURE_FEDERATED_TOKEN_FILE")" &&
+    gcloud auth activate-service-account --key-file=/var/secrets/gcp/gcp-service-account-key &&
+    exec /opt/coder server
 
   image:
     # custom image with az & gcloud CLIs installed
@@ -12,9 +18,10 @@ coder:
     tag: "2.22.0"
     pullPolicy: Always
 
-  # user-assigned managed identity used for authenticating Terraform to Azure
+  # Microsoft Entra Workload ID: the pod exchanges its service account token
+  # for the user-assigned managed identity that Terraform uses for Azure.
   podLabels:
-    aadpodidbinding: eric-cluster-pod-identity
+    azure.workload.identity/use: "true"
   service:
     enable: true
   tls:
@@ -24,6 +31,9 @@ coder:
   replicaCount: 1
   serviceAccount:
     workspacePerms: true
+    annotations:
+      # client ID of the user-assigned managed identity
+      azure.workload.identity/client-id: <managed-identity-client-id>
 
   # GCP credentials for Terraform
   volumes:
@@ -59,12 +69,16 @@ coder:
   - name: CODER_WILDCARD_ACCESS_URL
     value: '*.eric-aks.demo.coder.com'
 
+  # Azure subscription that the azurerm Terraform provider deploys into
+  - name: ARM_SUBSCRIPTION_ID
+    value: <azure-subscription-id>
+
   # database configuration
   - name: CODER_PG_CONNECTION_URL
     valueFrom:
       secretKeyRef:
         key: url
-        # connection URL for Azure Single Server PostgreSQL
+        # connection URL for Azure Database for PostgreSQL Flexible Server
         name: azure-db-url
 
   # OIDC/SSO configuration

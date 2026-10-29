@@ -11,12 +11,11 @@ terraform {
   }
 }
 
+# Authenticates with the workload identity that the Coder pod runs as.
+# ARM_SUBSCRIPTION_ID must be set on the Coder deployment.
 provider "azurerm" {
   features {}
-  client_id       = ""
-  subscription_id = ""
-  tenant_id       = ""
-  use_msi         = true
+  use_aks_workload_identity = true
 }
 
 provider "coder" {
